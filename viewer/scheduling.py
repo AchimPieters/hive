@@ -2,6 +2,7 @@ import logging
 from os import path
 from random import shuffle
 
+from django.db.models import Case, DateTimeField, F, Min, When
 from django.utils import timezone
 
 from hive_app.models import Asset
@@ -24,24 +25,50 @@ def generate_asset_list():
     2. Get nearest deadline
     """
     logging.info('Generating asset-list...')
-    assets = Asset.objects.all()
-    deadlines = [
-        asset.end_date if asset.is_active() else asset.start_date
-        for asset in assets
-    ]
+    current_time = timezone.now()
 
     enabled_assets = Asset.objects.filter(
         is_enabled=True,
         start_date__isnull=False,
         end_date__isnull=False,
-    ).order_by('play_order')
-    playlist = [
-        {k: v for k, v in asset.__dict__.items() if k not in ['_state', 'md5']}
-        for asset in enabled_assets
-        if asset.is_active()
-    ]
+    )
 
-    deadline = sorted(deadlines)[0] if len(deadlines) > 0 else None
+    playlist = list(
+        enabled_assets.filter(
+            start_date__lt=current_time,
+            end_date__gt=current_time,
+        )
+        .order_by('play_order')
+        .values(
+            'asset_id',
+            'name',
+            'uri',
+            'start_date',
+            'end_date',
+            'duration',
+            'mimetype',
+            'is_enabled',
+            'is_processing',
+            'nocache',
+            'play_order',
+            'skip_asset_check',
+        )
+    )
+
+    deadline = enabled_assets.aggregate(
+        deadline=Min(
+            Case(
+                When(
+                    start_date__lt=current_time,
+                    end_date__gt=current_time,
+                    then=F('end_date'),
+                ),
+                default=F('start_date'),
+                output_field=DateTimeField(),
+            )
+        )
+    )['deadline']
+
     logging.debug('generate_asset_list deadline: %s', deadline)
 
     if settings['shuffle_playlist']:
