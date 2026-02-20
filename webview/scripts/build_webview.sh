@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-DEBIAN_VERSION='bookworm'
+DEBIAN_VERSION=${DEBIAN_VERSION:-'bookworm'}
 QT_MAJOR='6'
 QT_MINOR='4'
 QT_PATCH='2'

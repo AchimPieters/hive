@@ -34,8 +34,8 @@ See [this](/docs/installation-options.md) page for options on how to install HIV
 ## :white_check_mark: Compatibility
 
 > [!WARNING]
-> HIVE does not currently support devices running Debian Trixie.
-> Please use Debian Bookworm or Raspberry Pi OS Bookworm for the best experience.
+> HIVE supports Debian Bookworm and Debian Trixie.
+> Raspberry Pi OS Bookworm remains the most battle-tested option for Raspberry Pi deployments.
 
 ### balenaOS
 

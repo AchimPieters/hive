@@ -1,8 +1,8 @@
 # How to install on a Raspberry Pi 5 with PCI-e SSD
 
 > [!WARNING]
-> HIVE does not currently support devices running Debian Trixie.
-> Please use Raspberry Pi OS Bookworm for the best experience.
+> HIVE supports Debian Bookworm and Debian Trixie.
+> Please use Raspberry Pi OS Bookworm for the best experience on Raspberry Pi 5.
 
 ## Hardware
 
