@@ -95,7 +95,7 @@ You can either use the arrow keys to select your choice and then press Enter or 
 (for yes-no questions). The installer will display your responses before proceeding with the
 installation.
 
-![install-anthias-gif](/docs/images/install-anthias.gif)
+![install-hive-gif](/docs/images/install-hive.gif)
 
 **This installation will take 15 minutes to several hours**, depending on variables such as:
 

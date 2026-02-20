@@ -5,4 +5,4 @@ ModuleName=script
 
 [script]
 ImageDir=/usr/share/plymouth/themes/anthias
-ScriptFile=/usr/share/plymouth/themes/anthias/anthias.script
+ScriptFile=/usr/share/plymouth/themes/anthias/hive.script
