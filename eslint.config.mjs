@@ -1,0 +1,61 @@
+import reactPlugin from 'eslint-plugin-react';
+import tseslint from '@typescript-eslint/eslint-plugin';
+import tsparser from '@typescript-eslint/parser';
+
+export default [
+  {
+    ignores: [
+      'dist/**',
+      'static/dist/**',
+    ],
+  },
+  {
+    files: ['**/*.{js,mjs,cjs,jsx,mjsx,ts,tsx,mtsx}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parser: tsparser,
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true
+        },
+        project: './tsconfig.json'
+      }
+    },
+    plugins: {
+      react: reactPlugin,
+      '@typescript-eslint': tseslint
+    },
+    settings: {
+      react: {
+        version: 'detect'
+      }
+    },
+    rules: {
+      'quotes': ['error', 'single'],
+      'indent': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'error',
+      'no-console': 'error',
+      'no-debugger': 'warn',
+      'no-unexpected-multiline': 'error',
+      'react/jsx-uses-react': 'error',
+      'react/jsx-uses-vars': 'error',
+      'react/jsx-no-duplicate-props': 'error',
+      'react/jsx-key': 'warn',
+      'react/jsx-max-props-per-line': ['warn', { maximum: 1, when: 'multiline' }],
+      'react/jsx-first-prop-new-line': ['warn', 'multiline'],
+      'react/jsx-closing-bracket-location': ['warn', 'line-aligned'],
+      'react/jsx-tag-spacing': ['warn', {
+        closingSlash: 'never',
+        beforeSelfClosing: 'always',
+        afterOpening: 'never',
+        beforeClosing: 'never'
+      }],
+      '@typescript-eslint/no-explicit-any': 'error',
+      '@typescript-eslint/explicit-function-return-type': 'off',
+      '@typescript-eslint/explicit-module-boundary-types': 'off',
+      '@typescript-eslint/no-inferrable-types': 'error'
+    }
+  }
+];
