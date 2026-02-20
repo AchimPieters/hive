@@ -133,8 +133,10 @@ function install_packages() {
 
     if [ "$DISTRO_VERSION" -ge 12 ]; then
         APT_INSTALL_ARGS+=(
+            "python3"
             "python3-dev"
-            "python3-full"
+            "python3-pip"
+            "python3-venv"
         )
     else
         APT_INSTALL_ARGS+=(
@@ -181,10 +183,8 @@ function install_ansible() {
         SUDO_ARGS+=("--preserve-env" "env" "PATH=$PATH")
     fi
 
-    # @TODO: Remove me later. Cryptography 38.0.3 won't build at the moment.
-    # See https://github.com/HIVE/issues/1654 for details.
-    sudo ${SUDO_ARGS[@]} pip install cryptography==38.0.1
-    sudo ${SUDO_ARGS[@]} pip install "$ANSIBLE_VERSION"
+    sudo ${SUDO_ARGS[@]} python3 -m pip install --upgrade pip
+    sudo ${SUDO_ARGS[@]} python3 -m pip install "$ANSIBLE_VERSION"
 }
 
 function set_device_type() {

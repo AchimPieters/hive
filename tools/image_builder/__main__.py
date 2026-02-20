@@ -40,6 +40,8 @@ def build_image(
 
     context = {}
 
+    debian_version = os.getenv('HIVE_DEBIAN_VERSION', 'bookworm').strip().lower()
+
     # Create board-specific cache directory
     cache_dir = Path('/tmp/.buildx-cache') / (
         f'{board}-64'
@@ -97,10 +99,10 @@ def build_image(
         service,
         {
             'base_image': base_image,
-            'base_image_tag': 'bookworm',
+            'base_image_tag': debian_version,
             'base_apt_dependencies': base_apt_dependencies,
             'board': board,
-            'debian_version': 'bookworm',
+            'debian_version': debian_version,
             'disable_cache_mounts': disable_cache_mounts,
             'environment': environment,
             'git_branch': git_branch,

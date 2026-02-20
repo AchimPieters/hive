@@ -8,7 +8,6 @@ import re
 import string
 from builtins import range, str
 from datetime import datetime, timedelta
-from distutils.util import strtobool
 from os import getenv, path, utime
 from platform import machine
 from subprocess import call, check_output
@@ -47,7 +46,26 @@ except ImportError:
 
 
 def string_to_bool(string):
-    return bool(strtobool(str(string)))
+    truth_map = {
+        'y': True,
+        'yes': True,
+        't': True,
+        'true': True,
+        'on': True,
+        '1': True,
+        'n': False,
+        'no': False,
+        'f': False,
+        'false': False,
+        'off': False,
+        '0': False,
+    }
+    normalized_value = str(string).strip().lower()
+
+    if normalized_value not in truth_map:
+        raise ValueError(f'invalid truth value {string!r}')
+
+    return truth_map[normalized_value]
 
 
 def touch(path):

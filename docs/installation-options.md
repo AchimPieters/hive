@@ -62,8 +62,8 @@ Starting with [v0.19.0](https://github.com/AchimPieters/HIVE/releases/tag/v0.19.
 If you'd like more control over your digital signage instance, try installing it on Raspberry Pi OS Lite or Debian.
 
 > [!WARNING]
-> HIVE does not currently support devices running Debian Trixie.
-> Please use Debian Bookworm or Raspberry Pi OS Bookworm for the best experience.
+> HIVE supports Debian Bookworm and Debian Trixie.
+> Raspberry Pi OS Bookworm remains the most battle-tested option for Raspberry Pi deployments.
 
 > [!IMPORTANT]
 > When installing on PC (x86) devices, make sure do follow the steps in the [x86 installation guide](/docs/x86-installation.md)
