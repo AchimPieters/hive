@@ -78,3 +78,24 @@ See [this](/docs/installation-options.md) page for options on how to install HIV
 * [Developer documentation](https://github.com/AchimPieters/HIVE/blob/master/docs/developer-documentation.md)
 * [Migrating assets from HIVE to HIVE](/docs/migrating-assets-to-screenly.md)
 * [WebView](/webview/README.md)
+
+## :lock: Security hardening notes
+
+The host command path (`reboot`/`shutdown`) now requires signed messages over Redis and secure Redis connectivity configuration.
+
+### Required environment variables
+
+- `HOSTCMD_SIGNING_SECRET`: HMAC secret used to sign host command messages.
+- `REDIS_URL` **or** `REDIS_HOST`/`REDIS_PORT` (+ optional `REDIS_PASSWORD`).
+- `REDIS_TLS=true` to force TLS (`rediss://` when using `REDIS_URL`).
+- `DJANGO_SECRET_KEY` is mandatory in production and optional in development.
+
+### Legacy password migration
+
+BasicAuth now uses Django password hashing (PBKDF2 by default). Old SHA256 hashes are auto-upgraded on successful login.
+
+If you want to migrate proactively, use:
+
+```bash
+python tools/migrate_legacy_password_hashes.py
+```

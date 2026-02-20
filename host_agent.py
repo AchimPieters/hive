@@ -12,8 +12,16 @@ import logging
 import os
 import subprocess
 
+import time
+from collections import deque
+
+from lib.host_commands import (
+    HOSTCMD_RATE_LIMIT_SECONDS,
+    validate_signed_hostcmd_payload,
+)
+from lib.redis_client import connect_to_redis
+
 import netifaces
-import redis
 import requests
 from tenacity import (
     RetryError,
@@ -22,9 +30,13 @@ from tenacity import (
     wait_fixed,
 )
 
-REDIS_ARGS = dict(host='127.0.0.1', port=6379, db=0)
 # Name of redis channel to listen to
 CHANNEL_NAME = b'hostcmd'
+RATE_LIMITED_COMMANDS = {'reboot', 'shutdown'}
+LAST_COMMAND_TS = {}
+SEEN_NONCES = set()
+RECENT_NONCES = deque()
+
 SUPPORTED_INTERFACES = (
     'wlan',
     'eth',
@@ -48,7 +60,7 @@ def get_ip_addresses():
 
 
 def set_ip_addresses():
-    rdb = redis.Redis(**REDIS_ARGS)
+    rdb = connect_to_redis(decode_responses=False)
 
     rdb.set('ip_addresses_ready', 'false')
 
@@ -93,13 +105,31 @@ def execute_host_command(cmd_name):
         )
     elif cmd_name in [b'reboot', b'shutdown']:
         logging.info('Executing host command %s', cmd_name)
-        phandle = subprocess.run(cmd)
-        logging.info(
-            'Host command %s (%s) returned %s',
-            cmd_name,
-            cmd,
-            phandle.returncode,
-        )
+        try:
+            phandle = subprocess.run(
+                cmd,
+                check=True,
+                timeout=10,
+                capture_output=True,
+                text=True,
+            )
+            logging.info(
+                'Host command %s completed rc=%s stdout=%s stderr=%s',
+                cmd_name,
+                phandle.returncode,
+                (phandle.stdout or '')[:500],
+                (phandle.stderr or '')[:500],
+            )
+        except subprocess.CalledProcessError as exc:
+            logging.error(
+                'Host command %s failed rc=%s stdout=%s stderr=%s',
+                cmd_name,
+                exc.returncode,
+                (exc.stdout or '')[:500],
+                (exc.stderr or '')[:500],
+            )
+        except subprocess.TimeoutExpired as exc:
+            logging.error('Host command %s timed out after %s seconds', cmd_name, exc.timeout)
     else:
         logging.info('Calling function %s', cmd)
         cmd()
@@ -110,7 +140,28 @@ def process_message(message):
         message.get('type', '') == 'message'
         and message.get('channel', b'') == CHANNEL_NAME
     ):
-        execute_host_command(message.get('data', b''))
+        cmd_name = validate_signed_hostcmd_payload(
+            message.get('data', b''),
+            seen_nonces=SEEN_NONCES,
+            recent_nonces=RECENT_NONCES,
+        )
+        if not cmd_name:
+            return
+
+        now = int(time.time())
+        if cmd_name in RATE_LIMITED_COMMANDS:
+            last_run = LAST_COMMAND_TS.get(cmd_name, 0)
+            if now - last_run < HOSTCMD_RATE_LIMIT_SECONDS:
+                logging.warning(
+                    'Rate limit reject for host command %s (last=%s, window=%s)',
+                    cmd_name,
+                    last_run,
+                    HOSTCMD_RATE_LIMIT_SECONDS,
+                )
+                return
+            LAST_COMMAND_TS[cmd_name] = now
+
+        execute_host_command(cmd_name.encode('utf-8'))
     else:
         logging.info('Received unsolicited message: %s', message)
 
@@ -118,7 +169,7 @@ def process_message(message):
 def subscriber_loop():
     # Connect to redis on localhost and wait for messages
     logging.info('Connecting to redis...')
-    rdb = redis.Redis(**REDIS_ARGS)
+    rdb = connect_to_redis(decode_responses=False)
     pubsub = rdb.pubsub(ignore_subscribe_messages=True)
     pubsub.subscribe(CHANNEL_NAME)
     rdb.set('host_agent_ready', 'true')

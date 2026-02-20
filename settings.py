@@ -3,19 +3,13 @@
 from __future__ import unicode_literals
 
 import configparser
-import hashlib
-import json
 import logging
-from builtins import object, str
+from builtins import str
 from collections import UserDict
-from os import getenv, path
-from time import sleep
-
-import zmq
+from os import getenv, makedirs, path
 
 from lib.auth import BasicAuth, NoAuth
-from lib.errors import ZmqCollectorTimeoutError
-
+from lib.messaging import ZmqCollector, ZmqConsumer, ZmqPublisher
 CONFIG_DIR = '.screenly/'
 CONFIG_FILE = 'screenly.conf'
 DEFAULTS = {
@@ -28,7 +22,7 @@ DEFAULTS = {
         'use_ssl': False,
         'auth_backend': '',
         'websocket_port': '9999',
-        'django_secret_key': '',
+        'django_secret_key': getenv('DJANGO_SECRET_KEY', ''),
     },
     'viewer': {
         'audio_output': 'hdmi',
@@ -95,14 +89,6 @@ class HIVESettings(UserDict):
                 self[field] = config.getint(section, field)
             else:
                 self[field] = config.get(section, field)
-                # Likely not a hashed password
-                if (
-                    field == 'password'
-                    and self[field] != ''
-                    and len(self[field]) != 64
-                ):
-                    # Hash the original password.
-                    self[field] = hashlib.sha256(self[field]).hexdigest()
         except configparser.Error as e:
             logging.debug(
                 "Could not parse setting '%s.%s': %s. "
@@ -146,6 +132,7 @@ class HIVESettings(UserDict):
             config.add_section(section)
             for field, default in list(defaults.items()):
                 self._set(config, section, field, default)
+        makedirs(self.get_configdir(), exist_ok=True)
         with open(self.conf_file, 'w') as f:
             config.write(f)
         self.load()
@@ -166,71 +153,12 @@ class HIVESettings(UserDict):
 settings = HIVESettings()
 
 
-class ZmqPublisher(object):
-    INSTANCE = None
 
-    def __init__(self):
-        if self.INSTANCE is not None:
-            raise ValueError('An instance already exists!')
-
-        self.context = zmq.Context()
-
-        self.socket = self.context.socket(zmq.PUB)
-        self.socket.bind('tcp://0.0.0.0:10001')
-        sleep(1)
-
-    @classmethod
-    def get_instance(cls):
-        if cls.INSTANCE is None:
-            cls.INSTANCE = ZmqPublisher()
-        return cls.INSTANCE
-
-    def send_to_ws_server(self, msg):
-        self.socket.send('ws_server {}'.format(msg).encode('utf-8'))
-
-    def send_to_viewer(self, msg):
-        self.socket.send_string('viewer {}'.format(msg))
-
-
-class ZmqConsumer(object):
-    def __init__(self):
-        self.context = zmq.Context()
-
-        self.socket = self.context.socket(zmq.PUSH)
-        self.socket.setsockopt(zmq.LINGER, 0)
-        self.socket.connect('tcp://anthias-server:5558')
-
-        sleep(1)
-
-    def send(self, msg):
-        self.socket.send_json(msg, flags=zmq.NOBLOCK)
-
-
-class ZmqCollector(object):
-    INSTANCE = None
-
-    def __init__(self):
-        if self.INSTANCE is not None:
-            raise ValueError('An instance already exists!')
-
-        self.context = zmq.Context()
-
-        self.socket = self.context.socket(zmq.PULL)
-        self.socket.bind('tcp://0.0.0.0:5558')
-
-        self.poller = zmq.Poller()
-        self.poller.register(self.socket, zmq.POLLIN)
-
-        sleep(1)
-
-    @classmethod
-    def get_instance(cls):
-        if cls.INSTANCE is None:
-            cls.INSTANCE = ZmqCollector()
-        return cls.INSTANCE
-
-    def recv_json(self, timeout):
-        if self.poller.poll(timeout):
-            return json.loads(self.socket.recv(zmq.NOBLOCK))
-
-        raise ZmqCollectorTimeoutError
+__all__ = [
+    "settings",
+    "ZmqPublisher",
+    "ZmqConsumer",
+    "ZmqCollector",
+    "LISTEN",
+    "PORT",
+]
