@@ -1,5 +1,5 @@
 screenly_systemd_units:
-  - anthias-host-agent.service
+  - hive-host-agent.service
 
 deprecated_screenly_systemd_units:
   - screenly-celery.service

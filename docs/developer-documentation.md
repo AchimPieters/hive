@@ -4,7 +4,7 @@
 
 Here is a high-level overview of the different components that make HIVE:
 
-![HIVE Diagram Overview](/docs/d2/anthias-diagram-overview.svg)
+![HIVE Diagram Overview](/docs/d2/hive-diagram-overview.svg)
 
 These components and their dependencies are mostly installed and handled with Ansible and Docker.
 
@@ -260,7 +260,7 @@ present in a Raspberry Pi with HIVE installed.
 ### `/etc/systemd/system/`
 
 * `wifi-connect.service` &mdash; starts the Balena `wifi-connect` program to dynamically set the Wi-Fi config on the device via the captive portal
-* `anthias-host-agent.service` &mdash; starts the Python script `host_agent.py`, which subscribes from the Redis component and performs a system call to shutdown or reboot the device when the message is received.
+* `hive-host-agent.service` &mdash; starts the Python script `host_agent.py`, which subscribes from the Redis component and performs a system call to shutdown or reboot the device when the message is received.
 
 ### `/etc/sudoers.d/screenly_overrides`
 
@@ -268,8 +268,8 @@ present in a Raspberry Pi with HIVE installed.
 
 ### `/usr/share/plymouth/themes/anthias`
 
-* `anthias.plymouth` &mdash; Plymouth config file (sets module name, `ImageDir` and `ScriptFile` dir)
-* `anthias.script` &ndash; plymouth script file that loads and scales the splash screen image during the boot process
+* `hive.plymouth` &mdash; Plymouth config file (sets module name, `ImageDir` and `ScriptFile` dir)
+* `hive.script` &ndash; plymouth script file that loads and scales the splash screen image during the boot process
 * `splashscreen.png` &mdash; the spash screen image that is displayed during the boot process
 
 ## Debugging the HIVE WebView

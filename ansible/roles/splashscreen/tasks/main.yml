@@ -72,8 +72,8 @@
     owner: root
     group: root
   with_items:
-    - anthias.plymouth
-    - anthias.script
+    - hive.plymouth
+    - hive.script
     - splashscreen.png
   when: ansible_distribution_major_version|int > 7
 
