@@ -1,5 +1,5 @@
 line-length = 79
-exclude = ["anthias_app/migrations/*.py"]
+exclude = ["hive_app/migrations/*.py"]
 target-version = "py311"
 
 [format]

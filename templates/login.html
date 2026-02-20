@@ -19,7 +19,7 @@
           </div>
           {% endif %}
 
-          <form method="post" action="{% url 'anthias_app:login' %}">
+          <form method="post" action="{% url 'hive_app:login' %}">
             {% csrf_token %}
             <input type="hidden" name="next" value="{{ next }}">
 
