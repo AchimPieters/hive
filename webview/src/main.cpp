@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 
     QDBusConnection connection = QDBusConnection::sessionBus();
 
-    if (!connection.registerObject("/Screenly", window,  QDBusConnection::ExportAllSlots))
+    if (!connection.registerObject("/HIVE", window,  QDBusConnection::ExportAllSlots))
     {
         qWarning() << "Can't register object";
         return 1;
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         qWarning() << qPrintable(QDBusConnection::sessionBus().lastError().message());
         return 1;
     }
-    qDebug() << "Screenly service start";
+    qDebug() << "HIVE service start";
 
 
     return app.exec();

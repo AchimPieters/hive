@@ -1,9 +1,9 @@
-# Migrating assets from Anthias to Screenly
+# Migrating assets from HIVE to HIVE
 
 > [!NOTE]
 > This feature is only available in devices running Raspberry Pi OS at the moment.
 
-To get started, SSH to your Raspberry Pi running Anthias. For instance:
+To get started, SSH to your Raspberry Pi running HIVE. For instance:
 
 ```bash
 $ ssh pi@raspberrypi
@@ -29,8 +29,8 @@ $ pip install -r requirements/requirements.local.txt
 ```
 
 Before running the script, you should prepare the following:
-* Your Screenly API key
-* Anthias username and password, if your device has basic authentication enabled
+* Your HIVE API key
+* HIVE username and password, if your device has basic authentication enabled
 
 Run the assets migration script. Follow through the instructions & prompts carefully.
 

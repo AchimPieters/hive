@@ -1,4 +1,4 @@
-// Centralized type definitions for the Anthias application
+// Centralized type definitions for the HIVE application
 import { store } from '@/store/index'
 
 // Asset-related types
@@ -244,7 +244,7 @@ export interface ToggleAssetParams {
 }
 
 // System info types
-export interface AnthiasVersionValueProps {
+export interface HIVEVersionValueProps {
   version: string
 }
 

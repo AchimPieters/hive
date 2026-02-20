@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { AnthiasVersionValueProps, MemoryInfo, UptimeInfo } from '@/types'
+import { HIVEVersionValueProps, MemoryInfo, UptimeInfo } from '@/types'
 import { Skeleton } from './skeleton'
 
-const ANTHIAS_REPO_URL = 'https://github.com/Screenly/Anthias'
+const ANTHIAS_REPO_URL = 'https://github.com/HIVE'
 
-const AnthiasVersionValue = ({ version }: AnthiasVersionValueProps) => {
+const HIVEVersionValue = ({ version }: HIVEVersionValueProps) => {
   const [commitLink, setCommitLink] = useState('')
 
   useEffect(() => {
@@ -47,7 +47,7 @@ export const SystemInfo = () => {
   })
   const [displayPower, setDisplayPower] = useState<string | null>(null)
   const [deviceModel, setDeviceModel] = useState('')
-  const [anthiasVersion, setAnthiasVersion] = useState('')
+  const [anthiasVersion, setHIVEVersion] = useState('')
   const [macAddress, setMacAddress] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [playerName, setPlayerName] = useState('')
@@ -80,7 +80,7 @@ export const SystemInfo = () => {
       setUptime(systemInfo.uptime)
       setDisplayPower(systemInfo.display_power)
       setDeviceModel(systemInfo.device_model)
-      setAnthiasVersion(systemInfo.anthias_version)
+      setHIVEVersion(systemInfo.anthias_version)
       setMacAddress(systemInfo.mac_address)
       setPlayerName(settingsData.player_name ?? '')
     } catch {
@@ -185,10 +185,10 @@ export const SystemInfo = () => {
                 </td>
               </tr>
               <tr>
-                <th scope="row">Anthias Version</th>
+                <th scope="row">HIVE Version</th>
                 <td>
                   <Skeleton isLoading={isLoading}>
-                    <AnthiasVersionValue version={anthiasVersion} />
+                    <HIVEVersionValue version={anthiasVersion} />
                   </Skeleton>
                 </td>
               </tr>

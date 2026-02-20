@@ -55,7 +55,7 @@ def set_token(value):
 
 
 def get_assets_by_anthias_api():
-    if click.confirm('Do you need authentication to access Anthias API?'):
+    if click.confirm('Do you need authentication to access HIVE API?'):
         login = click.prompt('Login')
         password = click.prompt('Password', hide_input=True)
         auth = HTTPBasicAuth(login, password)

@@ -1,6 +1,6 @@
 # Documentation
 
-## How to get logs from Anthias
+## How to get logs from HIVE
 
 SSH into your Raspberry Pi. For instance, if you've set `pi` for the username
 and `raspberrypi` for the hostname, then run:
@@ -9,7 +9,7 @@ and `raspberrypi` for the hostname, then run:
 $ ssh pi@raspberrypi
 ```
 
-Anthias makes use of Docker for containerization. To get the logs from the
+HIVE makes use of Docker for containerization. To get the logs from the
 containers, you can either make use of the `docker logs` command or you can
 use the `docker-compose logs` command.
 
@@ -59,12 +59,12 @@ Check out [this section](/docs/developer-documentation.md#understanding-the-comp
 
 See [the official documentation](https://www.raspberrypi.org/documentation/remote-access/ssh/)
 
-## Updating Anthias
+## Updating HIVE
 
 Run the following command in your console:
 
 ```bash
-$ bash <(curl -sL https://raw.githubusercontent.com/AchimPieters/Anthias/master/bin/install.sh)
+$ bash <(curl -sL https://raw.githubusercontent.com/AchimPieters/HIVE/master/bin/install.sh)
 ```
 
 Alternatively, you can also run the following command:

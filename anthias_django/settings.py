@@ -52,7 +52,7 @@ CSRF_TRUSTED_ORIGINS = ['http://anthias']
 # Application definition
 
 INSTALLED_APPS = [
-    'anthias_app.apps.AnthiasAppConfig',
+    'anthias_app.apps.HIVEAppConfig',
     'drf_spectacular',
     'rest_framework',
     'api.apps.ApiConfig',
@@ -173,7 +173,7 @@ REST_FRAMEWORK = {
 }
 
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'Anthias API',
+    'TITLE': 'HIVE API',
     'VERSION': '2.0.0',
     'PREPROCESSING_HOOKS': [
         'api.api_docs_filter_spec.preprocessing_filter_spec'

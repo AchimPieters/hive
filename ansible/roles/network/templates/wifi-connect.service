@@ -1,5 +1,5 @@
 [Unit]
-Description=Anthias WiFi Connect
+Description=HIVE WiFi Connect
 After=docker.service
 
 [Service]

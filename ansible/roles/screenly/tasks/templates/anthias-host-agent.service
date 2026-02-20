@@ -1,5 +1,5 @@
 [Unit]
-Description=Anthias Host Agent
+Description=HIVE Host Agent
 After=docker.service
 StartLimitIntervalSec=10
 StartLimitBurst=3

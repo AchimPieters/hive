@@ -1,8 +1,8 @@
 # Deploying on a Balena fleet
 
 You can use the Balena disk images provided in the releases page to install
-Anthias in your device. However, if you want more control and transparency over
-the Balena deployment, follow through the steps below to deploy Anthias on your
+HIVE in your device. However, if you want more control and transparency over
+the Balena deployment, follow through the steps below to deploy HIVE on your
 Balena fleet.
 
 ## Getting started
@@ -83,12 +83,12 @@ ID      NAME                           VALUE        FLEET
 Before proceeding, make sure that you have logged in by running `balena login`.
 You can verify if you're logged in by running `balena whoami`.
 
-Open your terminal and clone the Anthias repository if you haven't already:
+Open your terminal and clone the HIVE repository if you haven't already:
 
 ```bash
 $ cd $WORKSPACE_DIRECTORY
-$ git clone git@github.com:Screenly/Anthias.git
-$ cd Anthias/
+$ git clone git@github.com:HIVE.git
+$ cd HIVE/
 ```
 
 Run the following command:
@@ -162,5 +162,5 @@ a while for the device to appear online.
 
 ![balena-ss-10](/docs/images/balena-deployment-10-downloading-images.png)
 
-Once done, the display should show the Anthias splash screen. You can now
+Once done, the display should show the HIVE splash screen. You can now
 add assets via the web interface.

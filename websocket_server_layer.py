@@ -29,7 +29,7 @@ class WebSocketTranslator(object):
             ws.close()
 
 
-class AnthiasServerListener(Thread):
+class HIVEServerListener(Thread):
     def __init__(self, context):
         Thread.__init__(self)
         self.context = context
@@ -49,7 +49,7 @@ class AnthiasServerListener(Thread):
 
 if __name__ == '__main__':
     context = zmq.Context()
-    listener = AnthiasServerListener(context)
+    listener = HIVEServerListener(context)
     listener.start()
 
     port = int(settings['websocket_port'])
