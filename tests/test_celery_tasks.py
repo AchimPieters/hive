@@ -8,7 +8,7 @@ from celery_tasks import cleanup
 
 
 class CeleryTasksTestCase(unittest.TestCase):
-    REPO_URL = 'https://github.com/Screenly/screenly-ose'
+    REPO_URL = 'https://github.com/HIVE/screenly-ose'
 
     def setUp(self):
         self.image_url = f'{self.REPO_URL}/raw/master/static/img/standby.png'

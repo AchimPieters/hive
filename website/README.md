@@ -1,4 +1,4 @@
-# Anthias Website
+# HIVE Website
 
 This is the source code for [anthias.screenly.io](https://anthias.screenly.io).
 

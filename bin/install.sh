@@ -8,7 +8,7 @@ set -euo pipefail
 BRANCH="master"
 ANSIBLE_PLAYBOOK_ARGS=()
 GITHUB_OWNER="AchimPieters"
-GITHUB_REPO="Anthias"
+GITHUB_REPO="HIVE"
 REPOSITORY="https://github.com/${GITHUB_OWNER}/${GITHUB_REPO}.git"
 ANTHIAS_REPO_DIR="/home/${USER}/screenly"
 GITHUB_API_REPO_URL="https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}"
@@ -20,7 +20,7 @@ ARCHITECTURE=$(uname -m)
 DISTRO_VERSION=$(lsb_release -rs)
 
 INTRO_MESSAGE=(
-    "Anthias requires a dedicated Raspberry Pi and an SD card."
+    "HIVE requires a dedicated Raspberry Pi and an SD card."
     "You will not be able to use the regular desktop environment once installed."
     ""
     "When prompted for the version, you can choose between the following:"
@@ -30,10 +30,10 @@ INTRO_MESSAGE=(
     "Take note that \`latest\` is a rolling release."
 )
 MANAGE_NETWORK_PROMPT=(
-    "Would you like Anthias to manage the network for you?"
+    "Would you like HIVE to manage the network for you?"
 )
 VERSION_PROMPT=(
-    "Which version of Anthias would you like to install?"
+    "Which version of HIVE would you like to install?"
 )
 VERSION_PROMPT_CHOICES=(
     "latest"
@@ -77,7 +77,7 @@ function install_prerequisites() {
 }
 
 function display_banner() {
-    local TITLE="${1:-Anthias Installer}"
+    local TITLE="${1:-HIVE Installer}"
     local COLOR="212"
 
     gum style \
@@ -182,7 +182,7 @@ function install_ansible() {
     fi
 
     # @TODO: Remove me later. Cryptography 38.0.3 won't build at the moment.
-    # See https://github.com/Screenly/Anthias/issues/1654 for details.
+    # See https://github.com/HIVE/issues/1654 for details.
     sudo ${SUDO_ARGS[@]} pip install cryptography==38.0.1
     sudo ${SUDO_ARGS[@]} pip install "$ANSIBLE_VERSION"
 }
@@ -204,7 +204,7 @@ function set_device_type() {
 }
 
 function run_ansible_playbook() {
-    display_section "Run the Anthias Ansible Playbook"
+    display_section "Run the HIVE Ansible Playbook"
     set_device_type
 
     sudo -u ${USER} ${SUDO_ARGS[@]} ansible localhost \
@@ -297,7 +297,7 @@ function modify_permissions() {
 function write_anthias_version() {
     local GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
     local GIT_SHORT_HASH=$(git rev-parse --short HEAD)
-    local ANTHIAS_VERSION="Anthias Version: ${GIT_BRANCH}@${GIT_SHORT_HASH}"
+    local ANTHIAS_VERSION="HIVE Version: ${GIT_BRANCH}@${GIT_SHORT_HASH}"
 
     echo "${ANTHIAS_VERSION}" > ~/version.md
     echo "$(lsb_release -a 2> /dev/null)" >> ~/version.md

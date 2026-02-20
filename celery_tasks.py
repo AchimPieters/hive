@@ -22,8 +22,8 @@ except Exception:
     pass
 
 
-__author__ = 'Screenly, Inc'
-__copyright__ = 'Copyright 2012-2024, Screenly, Inc'
+__author__ = 'HIVE, Inc'
+__copyright__ = 'Copyright 2012-2024, HIVE, Inc'
 __license__ = 'Dual License: GPLv2 and Commercial License'
 
 
@@ -35,7 +35,7 @@ CELERY_TASK_RESULT_EXPIRES = timedelta(hours=6)
 
 r = connect_to_redis()
 celery = Celery(
-    'Anthias Celery Worker',
+    'HIVE Celery Worker',
     backend=CELERY_RESULT_BACKEND,
     broker=CELERY_BROKER_URL,
     result_expires=CELERY_TASK_RESULT_EXPIRES,
@@ -70,7 +70,7 @@ def cleanup():
 @celery.task
 def reboot_anthias():
     """
-    Background task to reboot Anthias
+    Background task to reboot HIVE
     """
     if is_balena_app():
         for attempt in Retrying(
@@ -86,7 +86,7 @@ def reboot_anthias():
 @celery.task
 def shutdown_anthias():
     """
-    Background task to shutdown Anthias
+    Background task to shutdown HIVE
     """
     if is_balena_app():
         for attempt in Retrying(

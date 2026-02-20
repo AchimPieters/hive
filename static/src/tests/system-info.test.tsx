@@ -21,7 +21,7 @@ describe('SystemInfo', () => {
     expect(screen.getByText('Uptime')).toBeInTheDocument()
     expect(screen.getByText('Display Power (CEC)')).toBeInTheDocument()
     expect(screen.getByText('Device Model')).toBeInTheDocument()
-    expect(screen.getByText('Anthias Version')).toBeInTheDocument()
+    expect(screen.getByText('HIVE Version')).toBeInTheDocument()
     expect(screen.getByText('MAC Address')).toBeInTheDocument()
 
     const expectedValues = [

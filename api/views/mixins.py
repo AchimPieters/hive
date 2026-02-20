@@ -49,7 +49,7 @@ class BackupViewMixin(APIView):
     @extend_schema(
         summary='Create backup',
         description=cleandoc("""
-        Create a backup of the current Anthias instance, which
+        Create a backup of the current HIVE instance, which
         includes the following:
         * current settings
         * image and video assets

@@ -65,8 +65,8 @@ requests_log.setLevel(logging.WARNING)
 logging.debug('Starting viewer')
 
 
-class AnthiasSettings(UserDict):
-    """Anthias' Settings."""
+class HIVESettings(UserDict):
+    """HIVE' Settings."""
 
     def __init__(self, *args, **kwargs):
         UserDict.__init__(self, *args, **kwargs)
@@ -163,7 +163,7 @@ class AnthiasSettings(UserDict):
             return self.auth_backends[self['auth_backend']]
 
 
-settings = AnthiasSettings()
+settings = HIVESettings()
 
 
 class ZmqPublisher(object):

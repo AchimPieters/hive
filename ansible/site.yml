@@ -1,4 +1,4 @@
-- name: Install Anthias
+- name: Install HIVE
   hosts: all
   user: "{{ lookup('env', 'USER') }}"
   become: true

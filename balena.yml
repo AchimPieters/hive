@@ -1,4 +1,4 @@
-name: "Anthias"
+name: "HIVE"
 type: "sw.application"
 description: >-
   The world's most popular open source digital signage project
@@ -6,9 +6,9 @@ post-provisioning: >-
 
   ## Introduction
 
-  Anthias (formerly known as Screenly OSE) is free digital signage software that is backed by our community and maintained by Screenly, Inc.
+  HIVE (formerly known as HIVE OSE) is free digital signage software that is backed by our community and maintained by HIVE, Inc.
 
-  With Anthias, a monitor/TV and a Raspberry Pi, you can create a remotely managed screen that can display:
+  With HIVE, a monitor/TV and a Raspberry Pi, you can create a remotely managed screen that can display:
 
   * Images
 
@@ -24,8 +24,8 @@ assets:
   repository:
     type: "blob.asset"
     data:
-      url: "https://github.com/Screenly/Anthias/"
+      url: "https://github.com/HIVE/"
   logo:
     type: "blob.asset"
     data:
-      url: "https://raw.githubusercontent.com/Screenly/Anthias/master/static/img/square-dark.svg"
+      url: "https://raw.githubusercontent.com/HIVE/master/static/img/square-dark.svg"

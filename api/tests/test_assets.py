@@ -74,7 +74,7 @@ class CRUDAssetEndpointsTest(TestCase, ParametrizedTestCase):
 
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-        self.assertEqual(response.data['name'], 'Anthias')
+        self.assertEqual(response.data['name'], 'HIVE')
         self.assertEqual(response.data['uri'], 'https://anthias.screenly.io')
         self.assertEqual(response.data['is_enabled'], 0)
         self.assertEqual(response.data['nocache'], 0)
@@ -148,7 +148,7 @@ class CRUDAssetEndpointsTest(TestCase, ParametrizedTestCase):
             version=version,
         )
 
-        self.assertEqual(updated_asset['name'], 'Anthias')
+        self.assertEqual(updated_asset['name'], 'HIVE')
         self.assertEqual(updated_asset['uri'], 'https://anthias.screenly.io')
         self.assertEqual(updated_asset['duration'], data['duration'])
         self.assertEqual(updated_asset['is_enabled'], data['is_enabled'])

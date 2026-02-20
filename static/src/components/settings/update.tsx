@@ -21,13 +21,13 @@ export const Update = () => {
       <div className="row py-2 mt-4">
         <div className="col-12">
           <h4 className="page-header text-white">
-            <b>Update Anthias</b>
+            <b>Update HIVE</b>
           </h4>
         </div>
       </div>
       <div className="row content px-3">
         <div id="upgrade-section" className="col-12 my-3">
-          <p>Do the following steps to update Anthias:</p>
+          <p>Do the following steps to update HIVE:</p>
           <ul>
             <li>
               Go to the{' '}
@@ -64,7 +64,7 @@ export const Update = () => {
               Run the following upgrade script &mdash;{' '}
               <code>./bin/run_upgrade.sh</code>. The script is essentially a
               wrapper around the install script, so it will prompt you with the
-              same questions as when you first installed Anthias.
+              same questions as when you first installed HIVE.
             </li>
           </ul>
         </div>

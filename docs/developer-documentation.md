@@ -1,10 +1,10 @@
 # Developer documentation
 
-## Understanding the components that make up Anthias
+## Understanding the components that make up HIVE
 
-Here is a high-level overview of the different components that make Anthias:
+Here is a high-level overview of the different components that make HIVE:
 
-![Anthias Diagram Overview](/docs/d2/anthias-diagram-overview.svg)
+![HIVE Diagram Overview](/docs/d2/anthias-diagram-overview.svg)
 
 These components and their dependencies are mostly installed and handled with Ansible and Docker.
 
@@ -18,11 +18,11 @@ These components and their dependencies are mostly installed and handled with An
 
 ## Dockerized development environment
 
-To simplify development of the server module of Anthias, we've created a Docker container. This is intended to run on your local machine with the Anthias repository mounted as a volume.
+To simplify development of the server module of HIVE, we've created a Docker container. This is intended to run on your local machine with the HIVE repository mounted as a volume.
 
 > [!IMPORTANT]
 > * Make sure that you have [installed Docker](https://docs.docker.com/engine/install/) on your machine before proceeding.
-> * Anthias is using Docker's [buildx](https://docs.docker.com/engine/reference/commandline/buildx/) for the image builds. This is used both for cross compilation as well as for local caching. You might need to run `docker buildx create --use` first.
+> * HIVE is using Docker's [buildx](https://docs.docker.com/engine/reference/commandline/buildx/) for the image builds. This is used both for cross compilation as well as for local caching. You might need to run `docker buildx create --use` first.
 
 Assuming you're in the source code repository, simply run:
 
@@ -122,7 +122,7 @@ $ docker compose \
 
 ### The QA checklist
 
-We've also provided a [checklist](/docs/qa-checklist.md) that can serve as a guide for testing Anthias manually.
+We've also provided a [checklist](/docs/qa-checklist.md) that can serve as a guide for testing HIVE manually.
 
 ## Generating CSS and JS files
 
@@ -243,7 +243,7 @@ $ git push --delete origin v0.18.5           [±master ✓]
 ## Directories and files explained
 
 In this section, we'll explain the different directories and files that are
-present in a Raspberry Pi with Anthias installed.
+present in a Raspberry Pi with HIVE installed.
 
 ### `home/${USER}/screenly/`
 
@@ -272,7 +272,7 @@ present in a Raspberry Pi with Anthias installed.
 * `anthias.script` &ndash; plymouth script file that loads and scales the splash screen image during the boot process
 * `splashscreen.png` &mdash; the spash screen image that is displayed during the boot process
 
-## Debugging the Anthias WebView
+## Debugging the HIVE WebView
 
 ```
 export QT_LOGGING_DEBUG=1
@@ -280,7 +280,7 @@ export QT_LOGGING_RULES="*.debug=true"
 export QT_QPA_EGLFS_DEBUG=1
 ```
 
-The Anthias WebView is a custom-built web browser based on the [Qt](https://www.qt.io/) toolkit framework.
+The HIVE WebView is a custom-built web browser based on the [Qt](https://www.qt.io/) toolkit framework.
 The browser is assembled with a Dockerfile and built by a `webview/build_qt#.sh` script.
 
-For further info on these files and more, visit the following link: [https://github.com/AchimPieters/Anthias/tree/master/webview](https://github.com/AchimPieters/Anthias/tree/master/webview)
+For further info on these files and more, visit the following link: [https://github.com/AchimPieters/HIVE/tree/master/webview](https://github.com/AchimPieters/HIVE/tree/master/webview)

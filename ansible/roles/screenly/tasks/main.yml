@@ -20,7 +20,7 @@
     owner: "{{ lookup('env', 'USER') }}"
     mode: "0644"
 
-- name: Copy Screenly default assets file
+- name: Copy HIVE default assets file
   ansible.builtin.copy:
     owner: "{{ lookup('env', 'USER') }}"
     group: "{{ lookup('env', 'USER') }}"
@@ -69,7 +69,7 @@
 
 - name: Download upgrade script from github repository
   ansible.builtin.get_url:
-    url: https://raw.githubusercontent.com/Screenly/Anthias/master/bin/install.sh
+    url: https://raw.githubusercontent.com/HIVE/master/bin/install.sh
     dest: /usr/local/sbin/upgrade_anthias.sh
     mode: "0700"
     owner: root
