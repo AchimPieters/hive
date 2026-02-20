@@ -27,6 +27,16 @@ class Asset(models.Model):
 
     class Meta:
         db_table = 'assets'
+        indexes = [
+            models.Index(
+                fields=['is_enabled', 'start_date', 'end_date'],
+                name='assets_active_window_idx',
+            ),
+            models.Index(
+                fields=['is_enabled', 'play_order'],
+                name='assets_enabled_order_idx',
+            ),
+        ]
 
     def __str__(self):
         return self.name
