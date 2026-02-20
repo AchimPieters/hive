@@ -29,7 +29,7 @@ from tenacity import (
     wait_fixed,
 )
 
-from anthias_app.models import Asset
+from hive_app.models import Asset
 from settings import ZmqPublisher, settings
 
 standard_library.install_aliases()

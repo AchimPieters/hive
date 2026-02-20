@@ -1,4 +1,4 @@
-"""anthias_django URL Configuration
+"""hive_django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -29,7 +29,7 @@ class APIDocView(SpectacularRedocView):
 
 urlpatterns = [
     path('admin', admin.site.urls),
-    path('', include('anthias_app.urls')),
+    path('', include('hive_app.urls')),
     path('api/', include('api.urls')),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/docs/', APIDocView.as_view(url_name='schema'), name='redoc'),

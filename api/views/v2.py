@@ -12,8 +12,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from anthias_app.helpers import add_default_assets, remove_default_assets
-from anthias_app.models import Asset
+from hive_app.helpers import add_default_assets, remove_default_assets
+from hive_app.models import Asset
 from api.helpers import (
     AssetCreationError,
     get_active_asset_ids,

@@ -13,7 +13,7 @@ from rest_framework import status
 from rest_framework.test import APIClient
 from unittest_parametrize import ParametrizedTestCase, parametrize
 
-from anthias_app.models import Asset
+from hive_app.models import Asset
 from api.tests.test_common import ASSET_CREATION_DATA
 from settings import settings as anthias_settings
 
