@@ -4,6 +4,10 @@
 from __future__ import unicode_literals
 
 import hashlib
+import re
+
+from django.contrib.auth.hashers import check_password as django_check_password
+from django.contrib.auth.hashers import make_password
 import os.path
 from abc import ABCMeta, abstractmethod
 from base64 import b64decode
@@ -113,8 +117,19 @@ class BasicAuth(Auth):
         )
 
     def check_password(self, password):
-        hashed_password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-        return self.settings['password'] == hashed_password
+        stored_password = self.settings['password']
+        if not stored_password:
+            return False
+
+        if re.fullmatch(r'[a-f0-9]{64}', stored_password):
+            legacy_hash = hashlib.sha256(password.encode('utf-8')).hexdigest()
+            if legacy_hash == stored_password:
+                self.settings['password'] = make_password(password)
+                self.settings.save()
+                return True
+            return False
+
+        return django_check_password(password, stored_password)
 
     def is_authenticated(self, request):
         # First check Authorization header for API requests
@@ -152,10 +167,8 @@ class BasicAuth(Auth):
 
     def update_settings(self, request, current_pass_correct):
         new_user = request.POST.get('user', '')
-        new_pass = request.POST.get('password', '').encode('utf-8')
-        new_pass2 = request.POST.get('password2', '').encode('utf-8')
-        new_pass = hashlib.sha256(new_pass).hexdigest() if new_pass else None
-        new_pass2 = hashlib.sha256(new_pass2).hexdigest() if new_pass else None
+        new_pass = request.POST.get('password', '')
+        new_pass2 = request.POST.get('password2', '')
         # Handle auth components
         if self.settings['password']:  # if password currently set,
             if new_user != self.settings['user']:  # trying to change user
@@ -181,7 +194,7 @@ class BasicAuth(Auth):
                 if new_pass2 != new_pass:  # changing password
                     raise ValueError('New passwords do not match!')
 
-                self.settings['password'] = new_pass
+                self.settings['password'] = make_password(new_pass)
 
         else:  # no current password
             if new_user:  # setting username and password
@@ -190,7 +203,7 @@ class BasicAuth(Auth):
                 if not new_pass:
                     raise ValueError('Must provide password')
                 self.settings['user'] = new_user
-                self.settings['password'] = new_pass
+                self.settings['password'] = make_password(new_pass)
             else:
                 raise ValueError('Must provide username')
 

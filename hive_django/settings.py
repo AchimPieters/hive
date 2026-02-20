@@ -29,20 +29,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = getenv('ENVIRONMENT', 'production') in ['development', 'test']
 
-if not DEBUG:
-    if not device_settings.get('django_secret_key'):
-        # Modify the generated so that string interpolation
-        # errors can be avoided.
-        secret_key = secrets.token_urlsafe(50)
-        device_settings['django_secret_key'] = secret_key
-        device_settings.save()
+secret_key_from_env = getenv('DJANGO_SECRET_KEY', '').strip()
+stored_secret_key = (device_settings.get('django_secret_key') or '').strip()
 
-    SECRET_KEY = device_settings.get('django_secret_key')
+if not DEBUG:
+    SECRET_KEY = secret_key_from_env or stored_secret_key
+    if not SECRET_KEY:
+        raise RuntimeError(
+            'DJANGO_SECRET_KEY (or main.django_secret_key) is required in production'
+        )
 else:
-    # SECURITY WARNING: keep the secret key used in production secret!
-    SECRET_KEY = (
-        'django-insecure-7rz*$)g6dk&=h-3imq2xw*iu!zuhfb&w6v482_vs!w@4_gha=j'  # noqa: E501
-    )
+    SECRET_KEY = secret_key_from_env or stored_secret_key
+    if not SECRET_KEY:
+        SECRET_KEY = secrets.token_urlsafe(50)
+        device_settings['django_secret_key'] = SECRET_KEY
+        device_settings.save()
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'anthias', 'anthias-server']
 

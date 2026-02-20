@@ -17,7 +17,6 @@ from urllib.parse import urlparse
 
 import certifi
 import pytz
-import redis
 import requests
 import sh
 from future import standard_library
@@ -29,6 +28,8 @@ from tenacity import (
 )
 
 from hive_app.models import Asset
+from lib.host_commands import build_signed_hostcmd_payload
+from lib.redis_client import connect_to_redis
 from settings import ZmqPublisher, settings
 
 standard_library.install_aliases()
@@ -174,7 +175,7 @@ def get_node_ip():
             retries += 1
             sleep(1)
 
-        r.publish('hostcmd', 'set_ip_addresses')
+        r.publish('hostcmd', build_signed_hostcmd_payload('set_ip_addresses'))
 
         try:
             for attempt in Retrying(
@@ -491,9 +492,6 @@ def generate_perfect_paper_password(pw_length=10, has_symbols=True):
         random.SystemRandom().choice(ppp_letters) for _ in range(pw_length)
     )
 
-
-def connect_to_redis():
-    return redis.Redis(host='redis', decode_responses=True, port=6379, db=0)
 
 
 def is_docker():
